@@ -1,0 +1,19 @@
+[package]
+name = "network-handler"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+common-data-model = { path = "../common-data-model" }
+ureq = "2.10.1"
+netscan = "0.28"
+ipnet = "2.9.0"
+netdev = "0.30.0"
+rustls = "0.23.12"
+phf = "0.11.2"
+env_logger = "0.11.5"
+log = "0.4.22"
+async-nats = "0.36.0"
+tokio = { version = "1.40.0", features = ["full"] }
+futures = "0.3.30"
+tokio-stream = "0.1.16"

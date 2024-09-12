@@ -1,0 +1,14 @@
+/* src/App.css or your main stylesheet */
+.site-card-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.site-card-wrapper .ant-card-grid {
+    flex: 1;
+    min-width: 25%;
+}
+
+.ant-card {
+    margin-bottom: 24px; /* Add margin to separate cards */
+}

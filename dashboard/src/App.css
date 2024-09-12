@@ -1,0 +1,45 @@
+/* Make the layout responsive */
+@media (max-width: 768px) {
+    .header .logo {
+        display: flex;
+        justify-content: center;
+    }
+
+    .header .logo span {
+        font-size: 16px;
+    }
+
+    .header .search-container {
+        display: none;
+    }
+
+    .site-layout-background {
+        display: none; /* Hide sidebar on small screens */
+    }
+
+    .ant-btn.ant-btn-icon-only {
+        display: block; /* Show the drawer toggle button */
+    }
+
+    .ant-layout-sider {
+        display: none;
+    }
+
+    .ant-layout-content {
+        padding: 10px;
+    }
+}
+
+@media (max-width: 576px) {
+    .header .logo span {
+        display: none;
+    }
+
+    .header .logo svg {
+        font-size: 20px;
+    }
+
+    .ant-card-grid {
+        width: 100% !important;
+    }
+}
