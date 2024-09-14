@@ -52,7 +52,6 @@ impl RuntimeSettings {
             .get_key_value(ChannelNames::SETTINGS_BUCKET.to_string())
             .await;
         if kv.is_err() {
-            println!("OH NOOOOO");
             kv = Ok(jetstream
                 .create_key_value(Config {
                     bucket: ChannelNames::SETTINGS_BUCKET.to_string(),

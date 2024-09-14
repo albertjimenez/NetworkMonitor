@@ -4,7 +4,7 @@ use common_data_model::custom_traits::{CustomSerializer, IMacVendorCache};
 use common_data_model::mac_vendor_cache::MacVendorCache;
 use common_data_model::my_logger::init_logger;
 use futures::StreamExt;
-use log::info;
+use log::{debug, info};
 use netdev::get_default_interface;
 
 use crate::net_handler::host_scanner::HostScanner;
@@ -29,6 +29,7 @@ async fn main() -> Result<(), async_nats::Error> {
     loop {
         let mut host_stream = host_scanner.scan(&interface);
         while let Some(discovered_host) = host_stream.next().await {
+            debug!("Device found {:?}", &discovered_host);
             jetstream.publish(ChannelNames::MONITORING_DATA_WEBSOCKET, discovered_host.to_json_string().into()).await?;
         }
         let duration = runtime_settings.get_host_scan_interval(jetstream.clone()).await?;

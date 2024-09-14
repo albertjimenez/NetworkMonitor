@@ -1,5 +1,5 @@
 .DS_Store
 .idea
 .git
-target
+*/target
 dashboard/node_modules
