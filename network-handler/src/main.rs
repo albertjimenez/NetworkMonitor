@@ -15,7 +15,6 @@ pub mod net_handler;
 
 #[tokio::main]
 async fn main() -> Result<(), async_nats::Error> {
-    rustls::crypto::ring::default_provider().install_default().expect("Failed to install rustls crypto provider");
     let nc_url = environment_variables::common::get_nats_url();
     let nc = async_nats::connect(&nc_url).await?;
     init_logger();

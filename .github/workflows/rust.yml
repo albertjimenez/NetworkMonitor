@@ -1,4 +1,4 @@
-name: Rust
+name: Rust React Testing
 
 on:
   push:
@@ -16,11 +16,7 @@ jobs:
     strategy:
       matrix:
         target:
-          - x86_64-unknown-linux-gnu     # Linux (Intel)
-#          - aarch64-unknown-linux-gnu     # Linux (ARM64)
-          #- x86_64-apple-darwin           # macOS (Intel)
-          #- aarch64-apple-darwin          # macOS (ARM64)
-          #- x86_64-pc-windows-gnu         # Windows (Intel)
+          - x86_64-unknown-linux-musl     # Linux (Intel)
         rust_projects:
           - "network-handler"
           - "db_replica"
@@ -28,8 +24,10 @@ jobs:
           - "common-data-model"
     steps:
     - uses: actions/checkout@v4
-    - name: Install Rust
-      run: rustup update stable
+    - name: Install Rust and dependencies for openssl
+      run: |
+        rustup update stable
+        sudo apt install -y libssl-dev gcc musl-dev musl-tools
     - name: Install cross-compilation tools
       uses: taiki-e/setup-cross-toolchain-action@v1
       with:
@@ -37,24 +35,45 @@ jobs:
 
     - name: Run tests
       run: |
-        ls ${{ matrix.rust_projects }}
-#        cargo test --verbose
+        cd ${{ matrix.rust_projects }}
+        cargo test --verbose
+      env:
+        RUST_BACKTRACE: 1
+  network-handler-binary:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        target:
+          - x86_64-unknown-linux-musl     # Linux (Intel)
+         # - aarch64-unknown-linux-musl     # Linux (ARM64)
+        rust_projects:
+          - "network-handler"
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Rust and dependencies for openssl
+        run: |
+          rustup update stable
+          sudo apt install -y libssl-dev gcc musl-dev musl-tools
+      - name: Install cross-compilation tools
+        uses: taiki-e/setup-cross-toolchain-action@v1
+        with:
+          target: ${{ matrix.target }}
+
   dashboard_test:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       # Setup Node.js
       - name: Setup Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
           node-version: '22'
 
       # Install dependencies and run tests
       - name: Install dependencies and test dashboard
         run: |
-          ls -lah
-#          cd dashboard
-#          npm install
-#          npm run test
+          cd dashboard
+          npm install
+          npm run testCI

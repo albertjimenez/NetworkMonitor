@@ -1,6 +1,6 @@
 [package]
 name = "common-data-model"
-version = "0.1.0"
+version = "0.1.2"
 edition = "2021"
 keywords = ["datamodel", "network"]
 license = "MIT OR Apache-2.0"
@@ -15,5 +15,6 @@ serde_json = "1.0.128"
 env_logger = "0.11.5"
 chrono = { version = "0.4.38", features = ["serde"] }
 log = "0.4.22"
+strsim = "0.11.1"
 serde_with = "3.9.0"
-sqlx = { version = "0.8.2", features = ["runtime-tokio-native-tls", "postgres"] }
+sqlx = { version = "0.8.2", features = ["runtime-tokio-rustls", "postgres", "sqlx-macros", "sqlx-postgres", "macros"], default-features = false }
