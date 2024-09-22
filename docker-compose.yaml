@@ -1,0 +1,61 @@
+services:
+  postgres:
+    image: postgres:15
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./db_replica/schema.sql:/docker-entrypoint-initdb.d/schema.sql
+
+
+  nats:
+    image: nats:2.10
+    ports:
+      - "4222:4222"
+      - "8080:8080"
+      - "6222:6222"
+      - "8222:8222"
+    volumes:
+      - ./config.conf:/etc/nats/config.conf
+    command: ["-js", "-c", "/etc/nats/config.conf"]
+
+
+  db_replica:
+    build: ./db_replica
+    init: true
+
+    depends_on:
+      - postgres
+      - nats
+    environment:
+      - DATABASE_URL=${DATABASE_URL}
+      - NATS_URL=${NATS_URL}
+
+  system_monitor:
+    build: ./system_monitor
+    init: true
+
+    depends_on:
+      - nats
+    environment:
+      - NATS_URL=${NATS_URL}
+
+  dashboard:
+    build:
+      context: ./dashboard
+      args:
+        - VITE_NATS_URL=${VITE_NATS_URL}
+    depends_on:
+      - nats
+    environment:
+      - VITE_NATS_URL=${VITE_NATS_URL}
+    ports:
+      - "80:80"
+volumes:
+  postgres_data:

@@ -7,7 +7,7 @@ edition = "2021"
 sysinfo = "0.31.4"
 snmp = "0.2.2"
 serde = "1.0.209"
-common-data-model = {path = "../common-data-model"}
+common-data-model = "0.1.0"
 async-nats = "0.36.0"
 tokio = { version = "1.40.0", features = ["macros", "rt-multi-thread"] }
 log = "0.4.22"

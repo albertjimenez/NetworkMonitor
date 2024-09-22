@@ -20,7 +20,7 @@ mod payload;
 #[tokio::main]
 async fn main() -> Result<(), async_nats::Error> {
     let nc_url = environment_variables::common::get_nats_url();
-    let nc = async_nats::connect(&nc_url).await?;
+    let nc = async_nats::connect(&nc_url).await.expect("NATS server should be running");
     init_logger();
     let jetstream = jetstream::new(nc);
     let mut runtime_settings = RuntimeSettings::new();
