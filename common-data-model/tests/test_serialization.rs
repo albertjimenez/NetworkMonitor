@@ -1,6 +1,8 @@
+use strsim::levenshtein;
 use common_data_model::custom_traits::CustomSerializer;
 use common_data_model::data_models::{DiscoveredHost, ServiceDiscoveredHost, ServicePort};
 
+const MAX_DISTANCE: u8 = 20;
 #[test]
 fn test_serialization() {
     let service_port = ServicePort::new(1, "port".to_owned());
@@ -18,9 +20,9 @@ fn test_serialization() {
         vec![service_port.clone()],
     );
     let string_discovered_host = r#"{"id":null,"ip":"127.0.0.1","mac_address":"MAC","vendor_name":"Amazon","discovered_at":"2024-08-29T16:18:01.795046Z","open_ports":[{"id":null,"port":1,"name":"port"}]}"#;
-    assert_eq!(
-        discovered_host.to_json_string().len(),
-        string_discovered_host.len()
+    let distance = levenshtein(&discovered_host.to_json_string(), string_discovered_host);
+    assert!(
+        distance <= MAX_DISTANCE as usize, "Actual Distance = {} is greater than threshold {}", &distance, &MAX_DISTANCE
     );
     assert_eq!(
         DiscoveredHost::from_json_string(string_discovered_host.to_owned()).vendor_name,

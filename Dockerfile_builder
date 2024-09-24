@@ -1,0 +1,5 @@
+FROM rust:1.81-alpine
+RUN apk add --no-cache musl-dev gcc openssl-dev openssl-libs-static mingw-w64-gcc cmake
+WORKDIR /app
+RUN rustup target add x86_64-unknown-linux-musl && rustup target add aarch64-unknown-linux-gnu && rustup target add x86_64-pc-windows-gnu
+ENTRYPOINT ["cargo", "build", "--release", "--target"]
