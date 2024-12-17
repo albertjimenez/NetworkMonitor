@@ -9,9 +9,9 @@ COPY . .
 # Pass build environment variables to Vite
 ARG VITE_NATS_URL
 ENV VITE_NATS_URL=${VITE_NATS_URL}
-
+RUN export VITE_NATS_URL=${VITE_NATS_URL}
 # Build the production version of the app
-RUN npm run build
+RUN VITE_NATS_URL=${VITE_NATS_URL} npm run build
 
 # Stage 2: Serve the app using nginx
 FROM nginx:alpine
