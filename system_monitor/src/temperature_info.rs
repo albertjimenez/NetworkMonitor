@@ -13,7 +13,7 @@ impl TemperatureInfo {
         let components = Components::new_with_refreshed_list();
         let mut temperature_info_vec = vec![];
         for component in &components {
-            let (name, temperature) = (component.label().to_owned(), component.temperature());
+            let (name, temperature) = (component.label().to_owned(), component.temperature().unwrap_or(-1.0));
             let temp_info = TemperatureInfo { name, temperature };
             temperature_info_vec.push(temp_info);
         }

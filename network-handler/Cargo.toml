@@ -5,14 +5,15 @@ edition = "2021"
 
 [dependencies]
 common-data-model = "0.1.2"
-ureq = {version =  "2.10.1" , features = ["default"]}
+ureq = {version =  "2.10.1" , features = ["native-tls"]}
 netscan = "0.28"
-ipnet = "2.10.0"
+ipnet = "2.10.1"
 netdev = "0.31.0"
+rustls = "0.23.20"
 phf = "0.11.2"
 env_logger = "0.11.5"
 log = "0.4.22"
-async-nats = { version = "0.36.0", features = ["ring"], default-features = false }
-tokio = { version = "1.40.0", features = ["full"] }
-futures = "0.3.30"
-tokio-stream = "0.1.16"
+async-nats = "0.38.0"
+tokio = { version = "1.42.0", features = ["full"] }
+futures = "0.3.31"
+tokio-stream = "0.1.17"

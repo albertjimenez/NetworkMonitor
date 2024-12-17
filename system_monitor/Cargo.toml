@@ -4,10 +4,10 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-sysinfo = "0.31.4"
+sysinfo = "0.33.0"
 snmp = "0.2.2"
-serde = "1.0.209"
+serde = "1.0.210"
 common-data-model = "0.1.2"
-async-nats = "0.36.0"
-tokio = { version = "1.40.0", features = ["macros", "rt-multi-thread"] }
+async-nats = "0.38.0"
+tokio = { version = "1.42.0", features = ["macros", "rt-multi-thread"] }
 log = "0.4.22"

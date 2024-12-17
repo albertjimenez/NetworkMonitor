@@ -31,16 +31,32 @@ Welcome to **Network Monitoring Dashboard** — a powerful and user-friendly too
    ```bash
    git clone https://github.com/albertjimenez/NetworkMonitor.git
    ```
-2. Create an `.env` file with this content or expose the following environment variables
+2. Create an `.env` (already created as .env in this repo) file with this content or expose the following environment variables
+
+Example:
 ```dotenv
-# Replace the value with the actual NATS URL
-VITE_NATS_URL=ws://localhost:8080
+# .env file with default values for environment variables
+# PostgreSQL environment variables
+POSTGRES_USER=network
+POSTGRES_PASSWORD=123456
+POSTGRES_DB=network_monitor
+# NATS environment variables
+NATS_PORT=4222
+NATS_HOSTNAME=nats
+NATS_URL=nats:4222
+# Dashboard environment variables
+NATS_WS_PORT=8080
+VITE_NATS_HOSTNAME=ws://localhost
+DASHBOARD_PORT=3005
 ```
-3. Run `yarn` or `npm` to launch it
+3. Run `docker-compose`, compile the `network-handler` and run it as sudo
     ```bash
-   npm dev
-   # or
-   yarn dev
+   docker-compose up -d
+   cd network-handler
+   cargo build --release
+   cd target/release
+   # the hostname and port you used on the .env file 
+   sudo NATS_URL=localhost:4222 ./network-handler
     ```
 
 ## ⚙️ Usage
@@ -74,8 +90,9 @@ Tweak settings of the time to obtain data for the host discovery and the metrics
 
 1. [x] Device Discovery
 2. [x] Real-time System Monitoring
-3. [ ] Notification System (Telegram, Slack, Webhooks)
-4. [ ] Device History View
+3. [x] Docker Integration (missing network-handler due to permissions)
+4. [ ] Notification System (Telegram, Slack, Webhooks)
+5. [ ] Device History View
 
 Stay tuned for more exciting features!
 
